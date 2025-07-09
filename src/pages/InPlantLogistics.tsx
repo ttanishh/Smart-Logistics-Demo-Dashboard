@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Truck, Clock, CheckCircle, AlertTriangle, TrendingUp } from "lucide-react";
+import { ArrowLeft, Truck, Clock, CheckCircle, AlertTriangle, TrendingUp, FileText, BarChart3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { MetricCard } from "@/components/MetricCard";
@@ -8,7 +8,9 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
 
 const tatData = [
   { time: "06:00", tat: 4.2 },
@@ -41,6 +43,72 @@ export default function InPlantLogistics() {
     { id: 1, name: "Standard Delivery", duration: "4-6 hours", vehicles: 25 },
     { id: 2, name: "Express Delivery", duration: "2-3 hours", vehicles: 15 },
     { id: 3, name: "Bulk Transport", duration: "6-8 hours", vehicles: 48 },
+  ];
+
+  // Sample data for Shipping Intimation popup
+  const shippingData = [
+    { id: "LOAD-001", materialName: "Steel Rods", category: "Raw Materials", vendorParty: "ABC Corp", vehicleType: "Truck", transporterName: "XYZ Transport" },
+    { id: "LOAD-002", materialName: "Cement Bags", category: "Building Materials", vendorParty: "DEF Ltd", vehicleType: "Truck", transporterName: "PQR Logistics" },
+    { id: "LOAD-003", materialName: "Iron Sheets", category: "Raw Materials", vendorParty: "GHI Industries", vehicleType: "Truck", transporterName: "ABC Transport" },
+  ];
+
+  const pieData = [
+    { name: "IYALUA", value: 30, color: "#8884d8" },
+    { name: "ELMA", value: 25, color: "#82ca9d" },
+    { name: "ZMMA2", value: 20, color: "#ffc658" },
+    { name: "Vendor Portal", value: 25, color: "#ff7300" },
+  ];
+
+  const barData = [
+    { name: "Jan", value: 65 },
+    { name: "Feb", value: 72 },
+    { name: "Mar", value: 58 },
+    { name: "Apr", value: 84 },
+    { name: "May", value: 76 },
+    { name: "Jun", value: 69 },
+    { name: "Jul", value: 91 },
+    { name: "Aug", value: 78 },
+    { name: "Sep", value: 85 },
+    { name: "Oct", value: 73 },
+    { name: "Nov", value: 67 },
+    { name: "Dec", value: 82 },
+  ];
+
+  // Sample data for TAT Analysis popup
+  const tatAnalysisData = [
+    { 
+      vehicleType: "Total Vehicles", 
+      departure: "08:30", 
+      entryToSecurity: "09:15", 
+      securityToWeighment: "09:30", 
+      firstWeighment: "09:45", 
+      secondWeighment: "10:30", 
+      gateExit: "10:45", 
+      uplTat: "2h 15m", 
+      totalTat: "2h 15m" 
+    },
+    { 
+      vehicleType: "IYALUA", 
+      departure: "07:45", 
+      entryToSecurity: "08:30", 
+      securityToWeighment: "08:45", 
+      firstWeighment: "09:00", 
+      secondWeighment: "09:45", 
+      gateExit: "10:00", 
+      uplTat: "2h 15m", 
+      totalTat: "2h 15m" 
+    },
+    { 
+      vehicleType: "ELMA", 
+      departure: "09:00", 
+      entryToSecurity: "09:45", 
+      securityToWeighment: "10:00", 
+      firstWeighment: "10:15", 
+      secondWeighment: "11:00", 
+      gateExit: "11:15", 
+      uplTat: "2h 15m", 
+      totalTat: "2h 15m" 
+    },
   ];
 
   return (
@@ -161,6 +229,181 @@ export default function InPlantLogistics() {
               </div>
             </Card>
           </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-4 mb-8">
+          {/* Shipping Intimation Button */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="gap-2" size="lg">
+                <FileText className="h-4 w-4" />
+                Shipping Intimation
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Shipping Intimation Dashboard</DialogTitle>
+              </DialogHeader>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Vendor Portal Sidebar */}
+                <div className="lg:col-span-1">
+                  <Card className="p-4">
+                    <h3 className="font-semibold mb-4">Vendor Portal</h3>
+                    <div className="space-y-2">
+                      {["IYALUA", "ELMA", "ZMMA2", "Vendor Portal"].map((vendor) => (
+                        <div key={vendor} className="p-3 bg-primary text-primary-foreground rounded">
+                          {vendor}
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                </div>
+                
+                {/* Main Content */}
+                <div className="lg:col-span-2 space-y-6">
+                  {/* Data Table */}
+                  <Card className="p-4">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>S. No</TableHead>
+                          <TableHead>Material Name</TableHead>
+                          <TableHead>Material Category</TableHead>
+                          <TableHead>Vendor/Party Name</TableHead>
+                          <TableHead>Vehicle Type</TableHead>
+                          <TableHead>Transporter Name</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {shippingData.map((item, index) => (
+                          <TableRow key={item.id}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{item.materialName}</TableCell>
+                            <TableCell>{item.category}</TableCell>
+                            <TableCell>{item.vendorParty}</TableCell>
+                            <TableCell>{item.vehicleType}</TableCell>
+                            <TableCell>{item.transporterName}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Card>
+
+                  {/* Charts */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Pie Chart */}
+                    <Card className="p-4">
+                      <h4 className="font-semibold mb-2">Distribution</h4>
+                      <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={pieData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={40}
+                              outerRadius={80}
+                              dataKey="value"
+                            >
+                              {pieData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </Card>
+
+                    {/* Bar Chart */}
+                    <Card className="p-4">
+                      <h4 className="font-semibold mb-2">Monthly Analysis</h4>
+                      <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={barData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="hsl(var(--primary))" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* TAT Analysis Button */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="gap-2" size="lg">
+                <BarChart3 className="h-4 w-4" />
+                TAT Analysis
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>TAT Analysis Dashboard</DialogTitle>
+              </DialogHeader>
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                {/* Vendor Portal Sidebar */}
+                <div className="lg:col-span-1">
+                  <Card className="p-4">
+                    <h3 className="font-semibold mb-4">Vendor Portal</h3>
+                    <div className="space-y-2">
+                      {["IYALUA", "ELMA", "ZMMA2", "Vendor Portal", "Others"].map((vendor) => (
+                        <div key={vendor} className="p-3 bg-primary text-primary-foreground rounded">
+                          {vendor}
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                </div>
+                
+                {/* Main Content */}
+                <div className="lg:col-span-3">
+                  <Card className="p-4">
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Total Vehicles</TableHead>
+                            <TableHead>Departure to Plant Entry time</TableHead>
+                            <TableHead>Plant Entry to Security Check-in</TableHead>
+                            <TableHead>Security Check-in to First Weighment</TableHead>
+                            <TableHead>First Weighment to Second Weighment</TableHead>
+                            <TableHead>Second Weighment to Gate Exit</TableHead>
+                            <TableHead>Gate Exit to Depot</TableHead>
+                            <TableHead>UPL TAT</TableHead>
+                            <TableHead>Total TAT</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {tatAnalysisData.map((row, index) => (
+                            <TableRow key={index}>
+                              <TableCell className="font-medium">{row.vehicleType}</TableCell>
+                              <TableCell>{row.departure}</TableCell>
+                              <TableCell>{row.entryToSecurity}</TableCell>
+                              <TableCell>{row.securityToWeighment}</TableCell>
+                              <TableCell>{row.firstWeighment}</TableCell>
+                              <TableCell>{row.secondWeighment}</TableCell>
+                              <TableCell>{row.gateExit}</TableCell>
+                              <TableCell>{row.uplTat}</TableCell>
+                              <TableCell>{row.totalTat}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </Card>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* Metrics Cards */}
