@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
 const vehicleData = [
@@ -34,9 +35,30 @@ const vehicleTableData = [
   { id: "VH006", driver: "Tom Anderson", route: "Plant B-D", status: "Completed", time: "3.9h", destination: "Plant D" },
 ];
 
+const sidebarOptions = [
+  "TTAT Performance",
+  "TTAT - Vehicle At Night", 
+  "TTAT - QA",
+  "Vehicle Inspection and Deviation",
+  "TTAT - Past Data Analysis"
+];
+
+const dashboardOptions = [
+  "Governance Dashboard",
+  "TTAT Dashboard", 
+  "Security Dashboard",
+  "LIVE In-Plant Dashboard",
+  "Plant Dashboard",
+  "Month Actual VS Target TT Dashboard",
+  "QA Dashboard",
+  "Drill-Down Dashboard",
+  "Deviation Dashboard"
+];
+
 export default function ReportingPage() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [reportSearchTerm, setReportSearchTerm] = useState("");
 
   const filteredData = vehicleTableData.filter(vehicle =>
     vehicle.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -61,6 +83,74 @@ export default function ReportingPage() {
             <Download className="h-4 w-4" />
             Export Report
           </Button>
+        </div>
+
+        {/* Dashboard Options Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+          {/* Left Sidebar Options */}
+          <div className="space-y-2">
+            {sidebarOptions.map((option) => (
+              <Dialog key={option}>
+                <DialogTrigger asChild>
+                  <Button 
+                    className="w-full justify-start bg-primary text-primary-foreground hover:bg-primary/90 p-4 h-auto text-left"
+                  >
+                    {option} →
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{option}</DialogTitle>
+                  </DialogHeader>
+                  <div className="p-4">
+                    <p>This is the {option} dashboard. Content will be displayed here.</p>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
+
+          {/* Main Dashboard Grid */}
+          <div className="lg:col-span-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              {dashboardOptions.map((option) => (
+                <Dialog key={option}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      className="p-4 h-16 text-center border-2 border-muted hover:border-primary"
+                    >
+                      {option}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{option}</DialogTitle>
+                    </DialogHeader>
+                    <div className="p-4">
+                      <p>This is the {option}. Dashboard content will be displayed here.</p>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              ))}
+            </div>
+
+            {/* Search Section */}
+            <div className="flex items-center gap-2 justify-center">
+              <div className="relative">
+                <Search className="h-4 w-4 absolute left-3 top-3 text-muted-foreground" />
+                <Input
+                  placeholder="Search in Reports"
+                  value={reportSearchTerm}
+                  onChange={(e) => setReportSearchTerm(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <Button className="bg-primary text-primary-foreground">
+                SEARCH
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Charts Section */}
