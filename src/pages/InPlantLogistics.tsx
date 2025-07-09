@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Truck, Clock, CheckCircle, AlertTriangle, TrendingUp, FileText, BarChart3 } from "lucide-react";
+import { ArrowLeft, Truck, Clock, CheckCircle, AlertTriangle, TrendingUp, FileText, BarChart3, User, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { MetricCard } from "@/components/MetricCard";
@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from "recharts";
 
 const tatData = [
   { time: "06:00", tat: 4.2 },
@@ -111,190 +111,150 @@ export default function InPlantLogistics() {
     },
   ];
 
+  // Additional chart data
+  const radarData = [
+    { subject: 'Efficiency', A: 120, B: 110, fullMark: 150 },
+    { subject: 'Speed', A: 98, B: 130, fullMark: 150 },
+    { subject: 'Quality', A: 86, B: 130, fullMark: 150 },
+    { subject: 'Safety', A: 99, B: 100, fullMark: 150 },
+    { subject: 'Cost', A: 85, B: 90, fullMark: 150 },
+  ];
+
+  const monthlyBarData = [
+    { month: 'Jan', value: 20 },
+    { month: 'Feb', value: 45 },
+    { month: 'Mar', value: 28 },
+    { month: 'Apr', value: 80 },
+    { month: 'May', value: 99 },
+    { month: 'Jun', value: 43 },
+    { month: 'Jul', value: 78 },
+    { month: 'Aug', value: 85 },
+    { month: 'Sep', value: 43 },
+    { month: 'Oct', value: 65 },
+    { month: 'Nov', value: 78 },
+    { month: 'Dec', value: 52 },
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header title="In-Plant Logistics" showBreadcrumb />
-      
-      <main className="container mx-auto px-6 py-6">
-        <div className="flex items-center mb-6">
-          <Button variant="ghost" onClick={() => navigate("/")} className="mr-4">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Applications
-          </Button>
-          <h1 className="text-2xl font-bold">Goodstrack Dashboard</h1>
-        </div>
-
-        {/* Metrics Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="total">Total 88</TabsTrigger>
-            <TabsTrigger value="plant">Plant 88</TabsTrigger>
-            <TabsTrigger value="outside">Outside 88</TabsTrigger>
-            <TabsTrigger value="inbound">Inbound 88</TabsTrigger>
-          </TabsList>
-        </Tabs>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* Left Column - Forms */}
-          <div className="space-y-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">VEHICLE ALLOCATION</h3>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="vehicle-id">Vehicle ID</Label>
-                  <Input id="vehicle-id" placeholder="Enter vehicle ID" />
-                </div>
-                <div>
-                  <Label htmlFor="driver">Driver Name</Label>
-                  <Input id="driver" placeholder="Enter driver name" />
-                </div>
-                <div>
-                  <Label htmlFor="route">Route</Label>
-                  <Input id="route" placeholder="Select route" />
-                </div>
-                <Button className="w-full">ALLOCATE</Button>
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">TRACKING DETAILS</h3>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="tracking-id">Tracking ID</Label>
-                  <Input id="tracking-id" placeholder="Enter tracking ID" />
-                </div>
-                <Button className="w-full">TRACK</Button>
-              </div>
-            </Card>
+    <div className="min-h-screen bg-slate-100">
+      {/* Header */}
+      <div className="bg-blue-100 border-b">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-slate-400 rounded"></div>
+              <span className="text-blue-600 font-semibold">Goodstrack</span>
+            </div>
           </div>
-
-          {/* Middle Column - TAT Analysis */}
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">TAT ANALYSIS</h3>
-              <TrendingUp className="h-5 w-5 text-primary" />
-            </div>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={tatData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="time" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line 
-                    type="monotone" 
-                    dataKey="tat" 
-                    stroke="hsl(var(--primary))" 
-                    strokeWidth={2}
-                    dot={{ fill: "hsl(var(--primary))" }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-            <p className="text-sm text-muted-foreground mt-2">
-              Average TAT: 4.1 hours | Target: 4.0 hours
-            </p>
-          </Card>
-
-          {/* Right Column - Milestones & Trip Policy */}
-          <div className="space-y-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">MILESTONES</h3>
-              <div className="space-y-3">
-                {milestones.map((milestone) => (
-                  <div key={milestone.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <p className="font-medium text-sm">{milestone.title}</p>
-                      <p className="text-xs text-muted-foreground">{milestone.time}</p>
-                    </div>
-                    <div className={`w-3 h-3 rounded-full ${
-                      milestone.status === 'completed' ? 'bg-green-500' :
-                      milestone.status === 'in-progress' ? 'bg-yellow-500' : 'bg-gray-300'
-                    }`} />
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">TRIP POLICY</h3>
-              <div className="space-y-3">
-                {tripPolicies.map((policy) => (
-                  <div key={policy.id} className="p-3 bg-muted rounded-lg">
-                    <p className="font-medium text-sm">{policy.name}</p>
-                    <p className="text-xs text-muted-foreground">{policy.duration}</p>
-                    <p className="text-xs text-primary">{policy.vehicles} vehicles</p>
-                  </div>
-                ))}
-              </div>
-            </Card>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" className="bg-white text-slate-600">
+              <User className="h-4 w-4 mr-2" />
+              USER
+            </Button>
+            <Button variant="ghost" className="bg-blue-900 text-white">
+              <LogOut className="h-4 w-4 mr-2" />
+              LOGOUT
+            </Button>
           </div>
         </div>
+      </div>
 
+      {/* Navigation Tabs */}
+      <div className="bg-white border-b">
+        <div className="container mx-auto px-4 py-2">
+          <div className="flex items-center gap-4 mb-2">
+            <Button size="sm" className="bg-slate-600 text-white">
+              Create New Trip
+            </Button>
+            <Button size="sm" variant="outline">
+              Export Vehicle Alert
+            </Button>
+          </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-6 bg-transparent">
+              <TabsTrigger value="total" className="bg-slate-200">Total 88</TabsTrigger>
+              <TabsTrigger value="plant" className="bg-slate-200">Plant 88</TabsTrigger>
+              <TabsTrigger value="outside" className="bg-slate-200">Outside 88</TabsTrigger>
+              <TabsTrigger value="inbound" className="bg-slate-200">Inbound 88</TabsTrigger>
+              <TabsTrigger value="outbound" className="bg-slate-200">Outbound 88</TabsTrigger>
+              <TabsTrigger value="internal" className="bg-slate-200">Internal 88</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+
+      <main className="container mx-auto px-4 py-6">
         {/* Action Buttons */}
-        <div className="flex gap-4 mb-8">
-          {/* Shipping Intimation Button */}
+        <div className="flex gap-4 mb-6">
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="gap-2" size="lg">
-                <FileText className="h-4 w-4" />
-                Shipping Intimation
+              <Button className="bg-slate-700 text-white">
+                SHIPPING INTIMATION →
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Shipping Intimation Dashboard</DialogTitle>
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="sm">←</Button>
+                  <span className="text-blue-600 font-semibold">Goodstrack</span>
+                  <div className="ml-auto flex items-center gap-2">
+                    <Button variant="ghost" className="bg-slate-100">
+                      <User className="h-4 w-4 mr-2" />
+                      USER
+                    </Button>
+                    <Button variant="ghost" className="bg-blue-900 text-white">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      LOGOUT
+                    </Button>
+                  </div>
+                </div>
               </DialogHeader>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Vendor Portal Sidebar */}
-                <div className="lg:col-span-1">
-                  <Card className="p-4">
-                    <h3 className="font-semibold mb-4">Vendor Portal</h3>
-                    <div className="space-y-2">
-                      {["IYALUA", "ELMA", "ZMMA2", "Vendor Portal"].map((vendor) => (
-                        <div key={vendor} className="p-3 bg-primary text-primary-foreground rounded">
-                          {vendor}
-                        </div>
-                      ))}
-                    </div>
-                  </Card>
+              <div className="grid grid-cols-5 gap-6">
+                {/* Vendor Sidebar */}
+                <div className="col-span-1">
+                  <div className="space-y-2">
+                    {["IYALUA", "ELMA", "ZMMA2", "Vendor Portal"].map((vendor) => (
+                      <div key={vendor} className="p-3 bg-blue-900 text-white rounded font-medium">
+                        {vendor}
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 
                 {/* Main Content */}
-                <div className="lg:col-span-2 space-y-6">
-                  {/* Data Table */}
-                  <Card className="p-4">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>S. No</TableHead>
-                          <TableHead>Material Name</TableHead>
-                          <TableHead>Material Category</TableHead>
-                          <TableHead>Vendor/Party Name</TableHead>
-                          <TableHead>Vehicle Type</TableHead>
-                          <TableHead>Transporter Name</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {shippingData.map((item, index) => (
-                          <TableRow key={item.id}>
-                            <TableCell>{index + 1}</TableCell>
-                            <TableCell>{item.materialName}</TableCell>
-                            <TableCell>{item.category}</TableCell>
-                            <TableCell>{item.vendorParty}</TableCell>
-                            <TableCell>{item.vehicleType}</TableCell>
-                            <TableCell>{item.transporterName}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </Card>
+                <div className="col-span-4 space-y-6">
+                  {/* Table Header */}
+                  <div className="bg-white rounded border">
+                    <div className="grid grid-cols-6 gap-2 p-2 border-b bg-slate-50 text-sm font-medium">
+                      <div>Date</div>
+                      <div>Material Name</div>
+                      <div>Material Category</div>
+                      <div>Vendor/Party Name</div>
+                      <div>Vehicle Type</div>
+                      <div>Transporter Name</div>
+                    </div>
+                    <div className="p-2">
+                      <div className="bg-blue-100 p-2 rounded text-sm font-medium text-center">
+                        Material Category: 16/05/2023 {'->'} 06/10/2023 {'->'} 08/04/2019 {'->'} MTD
+                      </div>
+                    </div>
+                    {/* Table Rows */}
+                    {Array.from({ length: 10 }).map((_, index) => (
+                      <div key={index} className="grid grid-cols-6 gap-2 p-2 border-b text-sm">
+                        <div>Lines, Year</div>
+                        <div>Primary Text</div>
+                        <div>Primary Text</div>
+                        <div>Primary Text</div>
+                        <div>Primary Text</div>
+                        <div>Primary Text</div>
+                      </div>
+                    ))}
+                  </div>
 
-                  {/* Charts */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Charts Section */}
+                  <div className="grid grid-cols-2 gap-4">
                     {/* Pie Chart */}
                     <Card className="p-4">
-                      <h4 className="font-semibold mb-2">Distribution</h4>
                       <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
                           <PieChart>
@@ -302,12 +262,11 @@ export default function InPlantLogistics() {
                               data={pieData}
                               cx="50%"
                               cy="50%"
-                              innerRadius={40}
                               outerRadius={80}
                               dataKey="value"
                             >
                               {pieData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.color} />
+                                <Cell key={`cell-${index}`} fill={["#8B9DC3", "#6C7B95", "#5A6B8D", "#4A5A7A"][index]} />
                               ))}
                             </Pie>
                             <Tooltip />
@@ -318,15 +277,14 @@ export default function InPlantLogistics() {
 
                     {/* Bar Chart */}
                     <Card className="p-4">
-                      <h4 className="font-semibold mb-2">Monthly Analysis</h4>
                       <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={barData}>
+                          <BarChart data={monthlyBarData}>
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
+                            <XAxis dataKey="month" />
                             <YAxis />
                             <Tooltip />
-                            <Bar dataKey="value" fill="hsl(var(--primary))" />
+                            <Bar dataKey="value" fill="#8B9DC3" />
                           </BarChart>
                         </ResponsiveContainer>
                       </div>
@@ -337,67 +295,69 @@ export default function InPlantLogistics() {
             </DialogContent>
           </Dialog>
 
-          {/* TAT Analysis Button */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" className="gap-2" size="lg">
-                <BarChart3 className="h-4 w-4" />
-                TAT Analysis
+              <Button className="bg-blue-700 text-white">
+                TAT Analysis →
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>TAT Analysis Dashboard</DialogTitle>
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="sm">←</Button>
+                  <span className="text-blue-600 font-semibold">Goodstrack</span>
+                  <div className="ml-auto flex items-center gap-2">
+                    <Button variant="ghost" className="bg-slate-100">
+                      <User className="h-4 w-4 mr-2" />
+                      USER
+                    </Button>
+                    <Button variant="ghost" className="bg-blue-900 text-white">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      LOGOUT
+                    </Button>
+                  </div>
+                </div>
               </DialogHeader>
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                {/* Vendor Portal Sidebar */}
-                <div className="lg:col-span-1">
-                  <Card className="p-4">
-                    <h3 className="font-semibold mb-4">Vendor Portal</h3>
-                    <div className="space-y-2">
-                      {["IYALUA", "ELMA", "ZMMA2", "Vendor Portal", "Others"].map((vendor) => (
-                        <div key={vendor} className="p-3 bg-primary text-primary-foreground rounded">
-                          {vendor}
-                        </div>
-                      ))}
-                    </div>
-                  </Card>
+              <div className="grid grid-cols-5 gap-6">
+                {/* Vendor Sidebar */}
+                <div className="col-span-1">
+                  <div className="space-y-2">
+                    {["IYALUA", "ELMA", "ZMMA2", "Vendor Portal", "Others"].map((vendor) => (
+                      <div key={vendor} className="p-3 bg-blue-900 text-white rounded font-medium">
+                        {vendor}
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 
                 {/* Main Content */}
-                <div className="lg:col-span-3">
+                <div className="col-span-4">
                   <Card className="p-4">
                     <div className="overflow-x-auto">
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Total Vehicles</TableHead>
-                            <TableHead>Departure to Plant Entry time</TableHead>
-                            <TableHead>Plant Entry to Security Check-in</TableHead>
-                            <TableHead>Security Check-in to First Weighment</TableHead>
-                            <TableHead>First Weighment to Second Weighment</TableHead>
-                            <TableHead>Second Weighment to Gate Exit</TableHead>
-                            <TableHead>Gate Exit to Depot</TableHead>
-                            <TableHead>UPL TAT</TableHead>
-                            <TableHead>Total TAT</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {tatAnalysisData.map((row, index) => (
-                            <TableRow key={index}>
-                              <TableCell className="font-medium">{row.vehicleType}</TableCell>
-                              <TableCell>{row.departure}</TableCell>
-                              <TableCell>{row.entryToSecurity}</TableCell>
-                              <TableCell>{row.securityToWeighment}</TableCell>
-                              <TableCell>{row.firstWeighment}</TableCell>
-                              <TableCell>{row.secondWeighment}</TableCell>
-                              <TableCell>{row.gateExit}</TableCell>
-                              <TableCell>{row.uplTat}</TableCell>
-                              <TableCell>{row.totalTat}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
+                      <div className="grid grid-cols-9 gap-2 p-2 border-b bg-slate-50 text-xs font-medium">
+                        <div>Total Vehicles</div>
+                        <div>Departure to Plant Entry time</div>
+                        <div>Plant Entry to Security Check-in</div>
+                        <div>Security Check-in to First Weighment</div>
+                        <div>First Weighment to Second Weighment</div>
+                        <div>Second Weighment to Gate Exit</div>
+                        <div>Gate Exit to Depot</div>
+                        <div>UPL TAT</div>
+                        <div>Total TAT</div>
+                      </div>
+                      {["IYALUA", "ELMA", "ZMMA2"].map((vendor) => (
+                        <div key={vendor} className="grid grid-cols-9 gap-2 p-3 border-b text-xs">
+                          <div className="font-medium">{vendor}</div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        </div>
+                      ))}
                     </div>
                   </Card>
                 </div>
@@ -406,11 +366,214 @@ export default function InPlantLogistics() {
           </Dialog>
         </div>
 
-        {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {metrics.map((metric, index) => (
-            <MetricCard key={index} {...metric} />
-          ))}
+        {/* Main Dashboard Layout */}
+        <div className="grid grid-cols-4 gap-6">
+          {/* Left Sidebar */}
+          <div className="space-y-6">
+            {/* Live Trip Form */}
+            <Card className="p-4">
+              <h3 className="font-semibold mb-4 text-sm">Live Trip</h3>
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs">Search Trip/Vehicle No.</Label>
+                  <Input placeholder="" className="h-8 text-xs" />
+                </div>
+                <div>
+                  <Label className="text-xs">Vehicle No.</Label>
+                  <Input placeholder="" className="h-8 text-xs" />
+                </div>
+                <Button className="w-full h-8 bg-blue-600 text-xs">Live Trip</Button>
+              </div>
+            </Card>
+
+            {/* Create Fleet External */}
+            <Card className="p-4">
+              <h3 className="font-semibold mb-4 text-sm">Create Fleet External</h3>
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs">Document No.</Label>
+                  <Input placeholder="" className="h-8 text-xs" />
+                </div>
+                <div>
+                  <Label className="text-xs">Type</Label>
+                  <Input placeholder="" className="h-8 text-xs" />
+                </div>
+                <Button className="w-full h-8 bg-blue-600 text-xs">Create Trip</Button>
+              </div>
+            </Card>
+
+            {/* Trip Policy Table */}
+            <Card className="p-4">
+              <div className="space-y-2">
+                <div className="grid grid-cols-2 text-xs font-medium border-b pb-1">
+                  <div>TRIP POLICY</div>
+                  <div>STATUS</div>
+                </div>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="grid grid-cols-2 text-xs py-1">
+                    <div>Submit</div>
+                    <div>Description</div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+
+          {/* Center Content */}
+          <div className="col-span-2 space-y-6">
+            {/* Milestones */}
+            <Card className="p-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-sm">MILESTONES</h3>
+                <Button size="sm" variant="outline" className="text-xs">View Report {'>'}</Button>
+              </div>
+              <div className="space-y-2">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="flex items-center gap-2 text-xs">
+                    <div className="w-2 h-2 bg-slate-300 rounded-full"></div>
+                    <div></div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            {/* Circular Progress Chart */}
+            <Card className="p-4">
+              <div className="flex items-center justify-center h-64">
+                <div className="relative w-48 h-48">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={[{ value: 67 }, { value: 33 }]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={90}
+                        startAngle={90}
+                        endAngle={450}
+                        dataKey="value"
+                      >
+                        <Cell fill="#6B7280" />
+                        <Cell fill="#E5E7EB" />
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-2xl font-bold">67%</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Line Chart */}
+            <Card className="p-4">
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={tatData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="time" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="tat" stroke="#6B7280" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+
+            {/* Radar Chart */}
+            <Card className="p-4">
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={radarData}>
+                    <PolarGrid />
+                    <PolarAngleAxis dataKey="subject" />
+                    <PolarRadiusAxis angle={90} domain={[0, 150]} />
+                    <Radar name="A" dataKey="A" stroke="#6B7280" fill="#6B7280" fillOpacity={0.6} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+
+            {/* Monthly Bar Chart */}
+            <Card className="p-4">
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyBarData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#6B7280" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+
+            {/* Line Chart 2 */}
+            <Card className="p-4">
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={barData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="value" stroke="#6B7280" strokeWidth={1} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+          </div>
+
+          {/* Right Sidebar */}
+          <div className="space-y-6">
+            {/* Horizontal Bar Charts */}
+            <Card className="p-4">
+              <div className="space-y-3">
+                {Array.from({ length: 15 }).map((_, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <span className="text-xs w-8">{95 - index * 5}%</span>
+                    <div className="flex-1 bg-slate-200 h-2 rounded">
+                      <div 
+                        className="bg-slate-500 h-2 rounded" 
+                        style={{ width: `${Math.random() * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            {/* Vertical Bar Chart */}
+            <Card className="p-4">
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyBarData} layout="horizontal">
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis dataKey="month" type="category" />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#6B7280" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+
+            {/* Bottom Line Chart */}
+            <Card className="p-4">
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={barData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="value" stroke="#6B7280" strokeWidth={1} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+          </div>
         </div>
       </main>
     </div>
