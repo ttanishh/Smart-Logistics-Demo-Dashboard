@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Truck, Clock, CheckCircle, AlertTriangle, TrendingUp, FileText, BarChart3, User, Settings, LogOut } from "lucide-react";
+import { ArrowLeft, Truck, Clock, CheckCircle, AlertTriangle, TrendingUp, FileText, BarChart3, User, Settings, LogOut, Download, Edit, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { MetricCard } from "@/components/MetricCard";

@@ -1,257 +1,127 @@
 import { useState } from "react";
-import { ArrowLeft, Download, Filter, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
+import { User, LogOut, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
-
-const vehicleData = [
-  { name: "In Transit", value: 34, color: "#3b82f6" },
-  { name: "At Plant", value: 28, color: "#10b981" },
-  { name: "Loading", value: 16, color: "#f59e0b" },
-  { name: "Maintenance", value: 10, color: "#ef4444" },
-];
-
-const performanceData = [
-  { day: "Mon", trips: 45, efficiency: 92 },
-  { day: "Tue", trips: 52, efficiency: 88 },
-  { day: "Wed", trips: 48, efficiency: 95 },
-  { day: "Thu", trips: 56, efficiency: 91 },
-  { day: "Fri", trips: 61, efficiency: 87 },
-  { day: "Sat", trips: 38, efficiency: 94 },
-  { day: "Sun", trips: 29, efficiency: 89 },
-];
-
-const vehicleTableData = [
-  { id: "VH001", driver: "John Doe", route: "Plant A-B", status: "In Transit", time: "2.5h", destination: "Plant B" },
-  { id: "VH002", driver: "Mike Smith", route: "Plant B-C", status: "Loading", time: "0.5h", destination: "Plant C" },
-  { id: "VH003", driver: "Sarah Johnson", route: "Plant A-D", status: "Completed", time: "4.2h", destination: "Plant D" },
-  { id: "VH004", driver: "David Brown", route: "Plant C-A", status: "In Transit", time: "1.8h", destination: "Plant A" },
-  { id: "VH005", driver: "Lisa Wilson", route: "Plant D-B", status: "Loading", time: "0.3h", destination: "Plant B" },
-  { id: "VH006", driver: "Tom Anderson", route: "Plant B-D", status: "Completed", time: "3.9h", destination: "Plant D" },
-];
-
-const sidebarOptions = [
-  "TTAT Performance",
-  "TTAT - Vehicle At Night", 
-  "TTAT - QA",
-  "Vehicle Inspection and Deviation",
-  "TTAT - Past Data Analysis"
-];
-
-const dashboardOptions = [
-  "Governance Dashboard",
-  "TTAT Dashboard", 
-  "Security Dashboard",
-  "LIVE In-Plant Dashboard",
-  "Plant Dashboard",
-  "Month Actual VS Target TT Dashboard",
-  "QA Dashboard",
-  "Drill-Down Dashboard",
-  "Deviation Dashboard"
-];
+import { DashboardRenderer } from "@/components/DashboardRenderer";
 
 export default function ReportingPage() {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
   const [reportSearchTerm, setReportSearchTerm] = useState("");
+  const [selectedDashboard, setSelectedDashboard] = useState<string | null>(null);
 
-  const filteredData = vehicleTableData.filter(vehicle =>
-    vehicle.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    vehicle.driver.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    vehicle.route.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const dashboards = [
+    { title: "Governance Dashboard", key: "governance" },
+    { title: "TTAT Dashboard", key: "ttat" },
+    { title: "Security Dashboard", key: "security" },
+    { title: "LIVE In-Plant Dashboard", key: "live-inplant" },
+    { title: "Plant Dashboard", key: "plant" },
+    { title: "Month Actual Vs Target TT Dashboard", key: "month-actual" },
+    { title: "QA Dashboard", key: "qa" },
+    { title: "Drill Down Dashboard", key: "drill-down" },
+    { title: "Deviation Dashboard", key: "deviation" },
+  ];
+
+  const reports = [
+    { title: "TTAT Performance", key: "ttat-performance" },
+    { title: "TTAT - Vehicle At Night", key: "ttat-vehicle-night" },
+    { title: "TTAT - QA", key: "ttat-qa" },
+    { title: "Vehicle Inspection and Deviation", key: "vehicle-inspection" },
+    { title: "TTAT - Past Data Analysis", key: "ttat-past-data" },
+  ];
+
+  if (selectedDashboard) {
+    return <DashboardRenderer dashboardKey={selectedDashboard} onBack={() => setSelectedDashboard(null)} />;
+  }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header title="Reporting Dashboard" showBreadcrumb />
-      
-      <main className="container mx-auto px-6 py-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <Button variant="ghost" onClick={() => navigate("/")} className="mr-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Applications
+    <div className="min-h-screen bg-blue-50">
+      {/* Header */}
+      <div className="bg-blue-100 border-b">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm">
+              <Menu className="h-4 w-4" />
             </Button>
-            <h1 className="text-2xl font-bold">Analytics & Reports</h1>
+            <span className="text-blue-600 font-semibold text-lg">SMART LOGISTICS / REPORTING</span>
           </div>
-          <Button className="gap-2">
-            <Download className="h-4 w-4" />
-            Export Report
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" className="bg-white text-slate-600">
+              <User className="h-4 w-4 mr-2" />
+              USER
+            </Button>
+            <Button variant="ghost" className="bg-blue-900 text-white">
+              <LogOut className="h-4 w-4 mr-2" />
+              LOGOUT
+            </Button>
+          </div>
         </div>
+      </div>
 
-        {/* Dashboard Options Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
-          {/* Left Sidebar Options */}
-          <div className="space-y-2">
-            {sidebarOptions.map((option) => (
-              <Dialog key={option}>
-                <DialogTrigger asChild>
-                  <Button 
-                    className="w-full justify-start bg-primary text-primary-foreground hover:bg-primary/90 p-4 h-auto text-left"
+      <main className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-4 gap-6">
+          {/* Left Sidebar - Reports */}
+          <div className="space-y-4">
+            <Card className="p-4 bg-purple-100">
+              <h2 className="text-lg font-bold text-purple-800 mb-4">Reports</h2>
+              <div className="space-y-2">
+                {reports.map((report) => (
+                  <Button
+                    key={report.key}
+                    variant="ghost"
+                    className="w-full justify-start bg-purple-600 text-white hover:bg-purple-700"
+                    onClick={() => console.log(`Opening ${report.title}`)}
                   >
-                    {option} →
+                    {report.title} →
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{option}</DialogTitle>
-                  </DialogHeader>
-                  <div className="p-4">
-                    <p>This is the {option} dashboard. Content will be displayed here.</p>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            ))}
+                ))}
+              </div>
+            </Card>
           </div>
 
-          {/* Main Dashboard Grid */}
-          <div className="lg:col-span-3">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {dashboardOptions.map((option) => (
-                <Dialog key={option}>
-                  <DialogTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      className="p-4 h-16 text-center border-2 border-muted hover:border-primary"
-                    >
-                      {option}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>{option}</DialogTitle>
-                    </DialogHeader>
-                    <div className="p-4">
-                      <p>This is the {option}. Dashboard content will be displayed here.</p>
+          {/* Right Content - Dashboards */}
+          <div className="col-span-3">
+            <Card className="p-6 bg-purple-50">
+              <h2 className="text-lg font-bold text-purple-800 mb-6">Dashboards</h2>
+              
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                {dashboards.map((dashboard) => (
+                  <Button
+                    key={dashboard.key}
+                    variant="outline"
+                    className="p-4 h-auto bg-blue-100 hover:bg-blue-200 border-blue-300"
+                    onClick={() => setSelectedDashboard(dashboard.key)}
+                  >
+                    <div className="text-center">
+                      <div className="text-sm font-medium text-blue-800">
+                        {dashboard.title}
+                      </div>
                     </div>
-                  </DialogContent>
-                </Dialog>
-              ))}
-            </div>
+                  </Button>
+                ))}
+              </div>
 
-            {/* Search Section */}
-            <div className="flex items-center gap-2 justify-center">
-              <div className="relative">
-                <Search className="h-4 w-4 absolute left-3 top-3 text-muted-foreground" />
+              {/* Search Section */}
+              <div className="flex items-center gap-4 mb-6">
                 <Input
                   placeholder="Search in Reports"
                   value={reportSearchTerm}
                   onChange={(e) => setReportSearchTerm(e.target.value)}
-                  className="pl-10 w-64"
+                  className="max-w-md"
                 />
+                <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                  SEARCH
+                </Button>
               </div>
-              <Button className="bg-primary text-primary-foreground">
-                SEARCH
-              </Button>
-            </div>
+
+              {/* Large Content Area */}
+              <div className="bg-orange-100 rounded-lg p-8 min-h-96">
+                <div className="text-center text-gray-500">
+                  <p>Select a dashboard or report to view its content</p>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
-
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Vehicle Distribution Pie Chart */}
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Vehicle Status Distribution</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={vehicleData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: ${value}`}
-                  >
-                    {vehicleData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
-
-          {/* Performance Bar Chart */}
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Weekly Performance</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={performanceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="trips" fill="hsl(var(--primary))" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
-        </div>
-
-        {/* Vehicle Activity Table */}
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Vehicle Activity Report</h3>
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Search className="h-4 w-4 absolute left-3 top-3 text-muted-foreground" />
-                <Input
-                  placeholder="Search vehicles..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 w-64"
-                />
-              </div>
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-            </div>
-          </div>
-
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Vehicle ID</TableHead>
-                  <TableHead>Driver</TableHead>
-                  <TableHead>Route</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Duration</TableHead>
-                  <TableHead>Destination</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredData.map((vehicle) => (
-                  <TableRow key={vehicle.id}>
-                    <TableCell className="font-medium">{vehicle.id}</TableCell>
-                    <TableCell>{vehicle.driver}</TableCell>
-                    <TableCell>{vehicle.route}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        vehicle.status === "Completed" ? "bg-green-100 text-green-800" :
-                        vehicle.status === "In Transit" ? "bg-blue-100 text-blue-800" :
-                        "bg-yellow-100 text-yellow-800"
-                      }`}>
-                        {vehicle.status}
-                      </span>
-                    </TableCell>
-                    <TableCell>{vehicle.time}</TableCell>
-                    <TableCell>{vehicle.destination}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </Card>
       </main>
     </div>
   );
