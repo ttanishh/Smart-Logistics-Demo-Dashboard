@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
+import { NavigationBar } from "@/components/NavigationBar";
 
 // Chart data for the dashboard
 const currentMonthData = [
@@ -117,28 +118,7 @@ export default function InPlantLogistics() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-blue-100 border-b">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Menu className="w-6 h-6 text-slate-600" />
-              <Truck className="w-6 h-6 text-slate-600" />
-              <span className="text-slate-800 font-bold text-lg">SMART LOGISTICS / IN PLANT LOGISTICS</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" className="bg-white text-slate-800 border border-slate-300">
-              <User className="h-4 w-4 mr-2" />
-              USER
-            </Button>
-            <Button variant="ghost" className="bg-blue-900 text-white">
-              <LogOut className="h-4 w-4 mr-2" />
-              LOGOUT
-            </Button>
-          </div>
-        </div>
-      </div>
+      <NavigationBar title="SMART LOGISTICS / IN-PLANT LOGISTICS" />
 
       <div className="container mx-auto px-4 py-4">
         {/* Top Action Buttons */}

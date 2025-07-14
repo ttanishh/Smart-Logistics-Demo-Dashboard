@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Download, Edit, User, LogOut } from "lucide-react";
+import { Download, Edit } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, ComposedChart } from "recharts";
+import { NavigationBar } from "@/components/NavigationBar";
 
 interface DashboardRendererProps {
   dashboardKey: string;
@@ -73,29 +74,11 @@ export function DashboardRenderer({ dashboardKey, onBack }: DashboardRendererPro
 
   return (
     <div className="min-h-screen bg-blue-50">
-      {/* Header */}
-      <div className="bg-blue-100 border-b">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={onBack}>
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-blue-600 font-semibold text-lg">
-              SMART LOGISTICS / REPORTING / {dashboardTitles[dashboardKey as keyof typeof dashboardTitles]}
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" className="bg-white text-slate-600">
-              <User className="h-4 w-4 mr-2" />
-              USER
-            </Button>
-            <Button variant="ghost" className="bg-blue-900 text-white">
-              <LogOut className="h-4 w-4 mr-2" />
-              LOGOUT
-            </Button>
-          </div>
-        </div>
-      </div>
+      <NavigationBar 
+        title={`SMART LOGISTICS / REPORTING / ${dashboardTitles[dashboardKey as keyof typeof dashboardTitles]}`}
+        showBackButton={true}
+        onBack={onBack}
+      />
 
       <main className="container mx-auto px-4 py-6">
         <div className="flex items-center gap-4 mb-6">
@@ -112,7 +95,21 @@ export function DashboardRenderer({ dashboardKey, onBack }: DashboardRendererPro
         <div className="grid grid-cols-4 gap-6">
           {/* Blue Navigation Sidebar */}
           <div className="bg-blue-200 rounded-lg p-4">
-            <div className="h-96"></div>
+            <h3 className="font-semibold text-blue-800 mb-4">Quick Actions</h3>
+            <div className="space-y-2">
+              <Button variant="ghost" className="w-full justify-start text-blue-700 hover:bg-blue-300">
+                Export Data
+              </Button>
+              <Button variant="ghost" className="w-full justify-start text-blue-700 hover:bg-blue-300">
+                Print Report
+              </Button>
+              <Button variant="ghost" className="w-full justify-start text-blue-700 hover:bg-blue-300">
+                Share Report
+              </Button>
+              <Button variant="ghost" className="w-full justify-start text-blue-700 hover:bg-blue-300">
+                Schedule Report
+              </Button>
+            </div>
           </div>
 
           {/* Main Content */}
@@ -200,16 +197,22 @@ function GovernanceDashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: 5 }).map((_, index) => (
+              {[
+                { id: "V001", vehicleNumber: "GJ05AB1234", vcpNumber: "VCP001", materialName: "Caustic Soda", materialGroup: "Chemicals", vehicleType: "Tanker", thirdPartyWeight: "25.5 MT", tareWeight: "8.2 MT" },
+                { id: "V002", vehicleNumber: "MH12CD5678", vcpNumber: "VCP002", materialName: "Ammonia Solution", materialGroup: "Chemicals", vehicleType: "ISO Tank", thirdPartyWeight: "22.8 MT", tareWeight: "7.5 MT" },
+                { id: "V003", vehicleNumber: "KA09EF9012", vcpNumber: "VCP003", materialName: "Salt Grade-I", materialGroup: "Raw Materials", vehicleType: "Truck", thirdPartyWeight: "18.3 MT", tareWeight: "6.8 MT" },
+                { id: "V004", vehicleNumber: "RJ14GH3456", vcpNumber: "VCP004", materialName: "Methanol", materialGroup: "Solvents", vehicleType: "Tanker", thirdPartyWeight: "28.1 MT", tareWeight: "9.0 MT" },
+                { id: "V005", vehicleNumber: "TN33IJ7890", vcpNumber: "VCP005", materialName: "Ethylene Diamine", materialGroup: "Chemicals", vehicleType: "ISO Tank", thirdPartyWeight: "20.5 MT", tareWeight: "7.2 MT" },
+              ].map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.vehicleNumber}</TableCell>
+                  <TableCell>{row.vcpNumber}</TableCell>
+                  <TableCell>{row.materialName}</TableCell>
+                  <TableCell>{row.materialGroup}</TableCell>
+                  <TableCell>{row.vehicleType}</TableCell>
+                  <TableCell>{row.thirdPartyWeight}</TableCell>
+                  <TableCell>{row.tareWeight}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -255,12 +258,21 @@ function SecurityDashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: 8 }).map((_, index) => (
+              {[
+                { vehicleNumber: "GJ05AB1234", materialName: "Caustic Soda Lye", supplierName: "Gujarat Chemicals Ltd", time: "09:15 AM" },
+                { vehicleNumber: "MH12CD5678", materialName: "Ammonia Solution", supplierName: "Maharashtra Ammonia Co", time: "10:30 AM" },
+                { vehicleNumber: "KA09EF9012", materialName: "Salt Grade-I", supplierName: "Karnataka Salt Works", time: "11:45 AM" },
+                { vehicleNumber: "RJ14GH3456", materialName: "Methanol", supplierName: "Rajasthan Methanol Pvt", time: "12:15 PM" },
+                { vehicleNumber: "TN33IJ7890", materialName: "Ethylene Diamine", supplierName: "Tamil Nadu Chemicals", time: "01:30 PM" },
+                { vehicleNumber: "UP16KL2345", materialName: "Zinc Sulphate", supplierName: "UP Chemical Industries", time: "02:45 PM" },
+                { vehicleNumber: "WB19MN6789", materialName: "Hi Chloron", supplierName: "Bengal Chemical Works", time: "03:20 PM" },
+                { vehicleNumber: "AP22OP1234", materialName: "Manganese Sulphate", supplierName: "Andhra Manganese Co", time: "04:10 PM" },
+              ].map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>{row.vehicleNumber}</TableCell>
+                  <TableCell>{row.materialName}</TableCell>
+                  <TableCell>{row.supplierName}</TableCell>
+                  <TableCell>{row.time}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -283,17 +295,26 @@ function SecurityDashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: 8 }).map((_, index) => (
+              {[
+                { entryPass: "EP001", vendor: "Gujarat Chemicals", vehicleType: "Tanker", inwardToPlate: "45 mins", firstWtToOutward: "2.5 hrs", secondWtToOutward: "1.2 hrs", firstWeight: "25.5 MT", secondWeight: "17.3 MT", storage: "Yard A" },
+                { entryPass: "EP002", vendor: "Maharashtra Ammonia", vehicleType: "ISO Tank", inwardToPlate: "38 mins", firstWtToOutward: "3.1 hrs", secondWtToOutward: "1.8 hrs", firstWeight: "22.8 MT", secondWeight: "15.2 MT", storage: "Yard B" },
+                { entryPass: "EP003", vendor: "Karnataka Salt", vehicleType: "Truck", inwardToPlate: "52 mins", firstWtToOutward: "2.8 hrs", secondWtToOutward: "1.5 hrs", firstWeight: "18.3 MT", secondWeight: "11.5 MT", storage: "Storage 1" },
+                { entryPass: "EP004", vendor: "Rajasthan Methanol", vehicleType: "Tanker", inwardToPlate: "41 mins", firstWtToOutward: "2.2 hrs", secondWtToOutward: "1.1 hrs", firstWeight: "28.1 MT", secondWeight: "19.1 MT", storage: "Yard C" },
+                { entryPass: "EP005", vendor: "Tamil Nadu Chemicals", vehicleType: "ISO Tank", inwardToPlate: "49 mins", firstWtToOutward: "3.5 hrs", secondWtToOutward: "2.0 hrs", firstWeight: "20.5 MT", secondWeight: "13.3 MT", storage: "Storage 2" },
+                { entryPass: "EP006", vendor: "UP Chemical Industries", vehicleType: "Truck", inwardToPlate: "35 mins", firstWtToOutward: "2.1 hrs", secondWtToOutward: "0.9 hrs", firstWeight: "16.7 MT", secondWeight: "9.8 MT", storage: "Yard D" },
+                { entryPass: "EP007", vendor: "Bengal Chemical Works", vehicleType: "Tanker", inwardToPlate: "46 mins", firstWtToOutward: "2.9 hrs", secondWtToOutward: "1.6 hrs", firstWeight: "24.2 MT", secondWeight: "16.5 MT", storage: "Storage 3" },
+                { entryPass: "EP008", vendor: "Andhra Manganese", vehicleType: "ISO Tank", inwardToPlate: "43 mins", firstWtToOutward: "2.7 hrs", secondWtToOutward: "1.4 hrs", firstWeight: "21.9 MT", secondWeight: "14.1 MT", storage: "Yard E" },
+              ].map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>{row.entryPass}</TableCell>
+                  <TableCell>{row.vendor}</TableCell>
+                  <TableCell>{row.vehicleType}</TableCell>
+                  <TableCell>{row.inwardToPlate}</TableCell>
+                  <TableCell>{row.firstWtToOutward}</TableCell>
+                  <TableCell>{row.secondWtToOutward}</TableCell>
+                  <TableCell>{row.firstWeight}</TableCell>
+                  <TableCell>{row.secondWeight}</TableCell>
+                  <TableCell>{row.storage}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -334,19 +355,26 @@ function PlantDashboard() {
               <TableHead className="text-white">Material Unload End Time</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {Array.from({ length: 6 }).map((_, index) => (
-              <TableRow key={index}>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+            <TableBody>
+              {[
+                { vehicleNumber: "GJ05AB1234", vehicleType: "Tanker", plantName: "Plant A", materialName: "Caustic Soda", supplierName: "Gujarat Chemicals Ltd", startTime: "09:15 AM", endTime: "11:30 AM" },
+                { vehicleNumber: "MH12CD5678", vehicleType: "ISO Tank", plantName: "Plant B", materialName: "Ammonia Solution", supplierName: "Maharashtra Ammonia Co", startTime: "10:30 AM", endTime: "12:45 PM" },
+                { vehicleNumber: "KA09EF9012", vehicleType: "Truck", plantName: "Plant A", materialName: "Salt Grade-I", supplierName: "Karnataka Salt Works", startTime: "11:45 AM", endTime: "01:20 PM" },
+                { vehicleNumber: "RJ14GH3456", vehicleType: "Tanker", plantName: "Plant C", materialName: "Methanol", supplierName: "Rajasthan Methanol Pvt", startTime: "12:15 PM", endTime: "02:30 PM" },
+                { vehicleNumber: "TN33IJ7890", vehicleType: "ISO Tank", plantName: "Plant B", materialName: "Ethylene Diamine", supplierName: "Tamil Nadu Chemicals", startTime: "01:30 PM", endTime: "03:45 PM" },
+                { vehicleNumber: "UP16KL2345", vehicleType: "Truck", plantName: "Plant A", materialName: "Zinc Sulphate", supplierName: "UP Chemical Industries", startTime: "02:45 PM", endTime: "04:15 PM" },
+              ].map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.vehicleNumber}</TableCell>
+                  <TableCell>{row.vehicleType}</TableCell>
+                  <TableCell>{row.plantName}</TableCell>
+                  <TableCell>{row.materialName}</TableCell>
+                  <TableCell>{row.supplierName}</TableCell>
+                  <TableCell>{row.startTime}</TableCell>
+                  <TableCell>{row.endTime}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
         </Table>
       </Card>
 
@@ -368,22 +396,26 @@ function PlantDashboard() {
               <TableHead className="text-white">Plant in QA</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <TableRow key={index}>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+            <TableBody>
+              {[
+                { vehicleNumber: "WB19MN6789", vehicleType: "Tanker", plantName: "Plant A", materialName: "Hi Chloron", inwardDate: "2024-01-15", inwardTime: "08:30 AM", outwardDate: "2024-01-15", outwardTime: "06:45 PM", timeTaken: "10h 15m", plantInQA: "Yes" },
+                { vehicleNumber: "AP22OP1234", vehicleType: "ISO Tank", plantName: "Plant B", materialName: "Manganese Sulphate", inwardDate: "2024-01-15", inwardTime: "09:45 AM", outwardDate: "2024-01-16", outwardTime: "07:20 AM", timeTaken: "21h 35m", plantInQA: "Yes" },
+                { vehicleNumber: "HR08QR5678", vehicleType: "Truck", plantName: "Plant C", materialName: "Phosphoric Acid", inwardDate: "2024-01-15", inwardTime: "11:20 AM", outwardDate: "2024-01-16", outwardTime: "09:15 AM", timeTaken: "21h 55m", plantInQA: "No" },
+              ].map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.vehicleNumber}</TableCell>
+                  <TableCell>{row.vehicleType}</TableCell>
+                  <TableCell>{row.plantName}</TableCell>
+                  <TableCell>{row.materialName}</TableCell>
+                  <TableCell>{row.inwardDate}</TableCell>
+                  <TableCell>{row.inwardTime}</TableCell>
+                  <TableCell>{row.outwardDate}</TableCell>
+                  <TableCell>{row.outwardTime}</TableCell>
+                  <TableCell>{row.timeTaken}</TableCell>
+                  <TableCell>{row.plantInQA}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
         </Table>
       </Card>
     </div>
@@ -453,13 +485,17 @@ function DeviationDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.from({ length: 3 }).map((_, index) => (
+                {[
+                  { materialCode: "MC001", materialName: "Caustic Soda Lye", quantity: "25.5 MT", date: "2024-01-15", plantName: "Plant A" },
+                  { materialCode: "MC002", materialName: "Ammonia Solution", quantity: "22.8 MT", date: "2024-01-15", plantName: "Plant B" },
+                  { materialCode: "MC003", materialName: "Salt Grade-I", quantity: "18.3 MT", date: "2024-01-15", plantName: "Plant A" },
+                ].map((row, index) => (
                   <TableRow key={index}>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
+                    <TableCell>{row.materialCode}</TableCell>
+                    <TableCell>{row.materialName}</TableCell>
+                    <TableCell>{row.quantity}</TableCell>
+                    <TableCell>{row.date}</TableCell>
+                    <TableCell>{row.plantName}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

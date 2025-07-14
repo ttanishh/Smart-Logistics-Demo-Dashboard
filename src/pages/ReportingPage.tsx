@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { User, LogOut, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { DashboardRenderer } from "@/components/DashboardRenderer";
+import { NavigationBar } from "@/components/NavigationBar";
 
 export default function ReportingPage() {
   const [reportSearchTerm, setReportSearchTerm] = useState("");
@@ -36,27 +36,7 @@ export default function ReportingPage() {
 
   return (
     <div className="min-h-screen bg-blue-50">
-      {/* Header */}
-      <div className="bg-blue-100 border-b">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">
-              <Menu className="h-4 w-4" />
-            </Button>
-            <span className="text-blue-600 font-semibold text-lg">SMART LOGISTICS / REPORTING</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" className="bg-white text-slate-600">
-              <User className="h-4 w-4 mr-2" />
-              USER
-            </Button>
-            <Button variant="ghost" className="bg-blue-900 text-white">
-              <LogOut className="h-4 w-4 mr-2" />
-              LOGOUT
-            </Button>
-          </div>
-        </div>
-      </div>
+      <NavigationBar title="SMART LOGISTICS / REPORTING" />
 
       <main className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-4 gap-6">

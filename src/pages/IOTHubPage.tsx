@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { ArrowLeft, Wifi, WifiOff, Activity, Battery, Thermometer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { MetricCard } from "@/components/MetricCard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { NavigationBar } from "@/components/NavigationBar";
 
 const sensorData = [
   { time: "00:00", temp: 22, humidity: 45, vibration: 0.2 },
@@ -37,17 +37,10 @@ export default function IOTHubPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header title="IOT Hub" showBreadcrumb />
+    <div className="min-h-screen bg-blue-50">
+      <NavigationBar title="SMART LOGISTICS / IOT HUB" />
       
-      <main className="container mx-auto px-6 py-6">
-        <div className="flex items-center mb-6">
-          <Button variant="ghost" onClick={() => navigate("/")} className="mr-4">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Applications
-          </Button>
-          <h1 className="text-2xl font-bold">IOT Device Management</h1>
-        </div>
+      <main className="container mx-auto px-4 py-6">
 
         {/* Metrics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
