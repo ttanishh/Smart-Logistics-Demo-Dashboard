@@ -22,11 +22,12 @@ export default function ReportingPage() {
   ];
 
   const reports = [
-    { title: "TTAT Performance", key: "ttat-performance" },
-    { title: "TTAT - Vehicle At Night", key: "ttat-vehicle-night" },
-    { title: "TTAT - QA", key: "ttat-qa" },
-    { title: "Vehicle Inspection and Deviation", key: "vehicle-inspection" },
-    { title: "TTAT - Past Data Analysis", key: "ttat-past-data" },
+    { title: "TTAT(QA) Material", key: "ttat-qa-material" },
+    { title: "TTAT - Performance Report", key: "ttat-performance" },
+    { title: "Vehicle Inspection & Deviation (QA)", key: "vehicle-inspection-deviation" },
+    { title: "TTAT - Reduction in Vehicles Stay at Night", key: "ttat-vehicle-night-reduction" },
+    { title: "TAT Past Data Analysis", key: "tat-past-data-analysis" },
+    { title: "TTAT (QA) Vehicle Type", key: "ttat-qa-vehicle-type" },
   ];
 
   if (selectedDashboard) {
@@ -69,7 +70,7 @@ export default function ReportingPage() {
                     key={report.key}
                     variant="ghost"
                     className="w-full justify-start bg-purple-600 text-white hover:bg-purple-700"
-                    onClick={() => console.log(`Opening ${report.title}`)}
+                    onClick={() => setSelectedDashboard(report.key)}
                   >
                     {report.title} →
                   </Button>

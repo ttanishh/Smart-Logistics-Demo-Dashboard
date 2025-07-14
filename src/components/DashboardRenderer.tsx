@@ -19,7 +19,13 @@ export function DashboardRenderer({ dashboardKey, onBack }: DashboardRendererPro
     ttat: "Total Turnaround Time Dashboard",
     "drill-down": "Drill Down Dashboard",
     "month-actual": "Month Actual VS Target TT Dashboard",
-    "live-inplant": "LIVE In-Plant Dashboard"
+    "live-inplant": "LIVE In-Plant Dashboard",
+    "ttat-qa-material": "TTAT(QA) MATERIAL",
+    "ttat-performance": "TTAT - PERFORMANCE REPORT",
+    "vehicle-inspection-deviation": "VEHICLE INSPECTION & DEVIATION (QA) REPORT",
+    "ttat-vehicle-night-reduction": "TTAT - REDUCTION IN VEHICLES STAY AT NIGHT",
+    "tat-past-data-analysis": "TAT PAST DATA ANALYSIS REPORT",
+    "ttat-qa-vehicle-type": "TTAT (QA) VEHICLE TYPE REPORT"
   };
 
   const handleDownload = () => {
@@ -48,6 +54,18 @@ export function DashboardRenderer({ dashboardKey, onBack }: DashboardRendererPro
         return <DrillDownDashboard />;
       case "month-actual":
         return <MonthActualDashboard />;
+      case "ttat-qa-material":
+        return <TTATQAMaterialDashboard />;
+      case "ttat-performance":
+        return <TTATPerformanceDashboard />;
+      case "vehicle-inspection-deviation":
+        return <VehicleInspectionDeviationDashboard />;
+      case "ttat-vehicle-night-reduction":
+        return <TTATVehicleNightReductionDashboard />;
+      case "tat-past-data-analysis":
+        return <TATPastDataAnalysisDashboard />;
+      case "ttat-qa-vehicle-type":
+        return <TTATQAVehicleTypeDashboard />;
       default:
         return <div>Dashboard not found</div>;
     }
@@ -889,6 +907,505 @@ function MonthActualDashboard() {
             ))}
           </TableBody>
         </Table>
+      </Card>
+    </div>
+  );
+}
+
+// New Report Dashboard Components
+
+function TTATQAMaterialDashboard() {
+  const trendData = [
+    { month: "JUL-23", value: 79.89, target: 100 },
+    { month: "AUG-23", value: 100, target: 100 },
+    { month: "SEP-23", value: 86.89, target: 100 },
+    { month: "JAN", value: 79.23, target: 100 },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Card className="p-6 bg-teal-50 border-2 border-teal-400">
+        <div className="bg-teal-500 text-white p-3 rounded mb-4">
+          <h2 className="text-lg font-bold">TTAT (QA) MATERIAL | REPORT</h2>
+        </div>
+        
+        <Card className="p-4 bg-green-100">
+          <h3 className="font-semibold mb-4 text-green-700">Trends - Average QA TAT (Hrs.)</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={trendData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#10B981" 
+                  strokeWidth={3}
+                  dot={{ fill: "#10B981", strokeWidth: 2, r: 6 }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="target" 
+                  stroke="#EF4444" 
+                  strokeDasharray="5 5"
+                  strokeWidth={2}
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+          
+          <div className="flex gap-4 mt-4">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+              <span className="text-sm">Positive Growth</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+              <span className="text-sm">Negative Growth</span>
+            </div>
+          </div>
+        </Card>
+      </Card>
+    </div>
+  );
+}
+
+function TTATPerformanceDashboard() {
+  const performanceData = [
+    { month: "Apr-23", rm: 6.12, target: 9 },
+    { month: "May-23", rm: 19.32, target: 9 },
+    { month: "Jun-23", rm: 17.55, target: 9 },
+    { month: "Jul-23", rm: 13.16, target: 9 },
+    { month: "Aug-23", rm: 10.41, target: 9 },
+    { month: "Sep-23", rm: 8.47, target: 9 },
+  ];
+
+  const materialData = [
+    { month: "Mar-23", value: 11.78 },
+    { month: "Apr-23", value: 15.58 },
+    { month: "May-23", value: 12.09 },
+    { month: "Jun-23", value: 11.33 },
+    { month: "Sep-23", value: 8.14 },
+  ];
+
+  const vehicleData = [
+    { month: "Apr-23", vehicles: 42, tat: 13.18 },
+    { month: "May-23", vehicles: 304, tat: 13.76 },
+    { month: "Jun-23", vehicles: 286, tat: 12.47 },
+    { month: "Jul-23", vehicles: 184, tat: 8.32 },
+    { month: "Aug-23", vehicles: 81, tat: 8.32 },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Card className="p-6 bg-teal-50 border-2 border-teal-400">
+        <div className="bg-teal-500 text-white p-3 rounded mb-4">
+          <h2 className="text-lg font-bold">TTAT – PERFORMANCE | REPORT</h2>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-6">
+          <Card className="p-4 bg-green-100">
+            <h3 className="font-semibold mb-4 text-green-700">Trends - Average TTAT for RM (Hrs.)</h3>
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={performanceData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="rm" fill="#DC2626" />
+                  <Line type="monotone" dataKey="target" stroke="#000000" strokeDasharray="5 5" strokeWidth={2} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+
+          <Card className="p-4 bg-green-100">
+            <h3 className="font-semibold mb-4 text-green-700">Average TTAT - Vehicles Stayed at Night (Top-11)</h3>
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={vehicleData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="vehicles" fill="#DC2626" />
+                  <Line type="monotone" dataKey="tat" stroke="#000000" strokeWidth={2} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </div>
+
+        <Card className="p-4 bg-green-100 mt-4">
+          <h3 className="font-semibold mb-4 text-green-700">Trends - Average TTAT for Top-11 Materials (Hrs.)</h3>
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={materialData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="value" fill="#F59E0B" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+      </Card>
+    </div>
+  );
+}
+
+function VehicleInspectionDeviationDashboard() {
+  const inspectionData = [
+    { id: 1, material: "Manganese Sulphate Solution 29.5%", total: 410, inspected: 410, passed: 409, ftp: "99.76", deviation: "-", deviationPercent: "-", rejected: "-", rejectedPercent: "-", aborted: "-", abortedPercent: "-" },
+    { id: 2, material: "Ammonia Solution 24%", total: 177, inspected: 177, passed: 176, ftp: "99.44", deviation: "-", deviationPercent: "-", rejected: "-", rejectedPercent: "-", aborted: "-", abortedPercent: "-" },
+    { id: 3, material: "Salt (grade-I)", total: 163, inspected: 163, passed: 163, ftp: "100", deviation: "-", deviationPercent: "-", rejected: "-", rejectedPercent: "-", aborted: "-", abortedPercent: "-" },
+    { id: 4, material: "Caustic Soda Lye - 45% Solution", total: 124, inspected: 124, passed: 124, ftp: "100", deviation: "-", deviationPercent: "-", rejected: "-", rejectedPercent: "-", aborted: "-", abortedPercent: "-" },
+    { id: 5, material: "Hi Chloron", total: 106, inspected: 106, passed: 105, ftp: "99.06", deviation: "-", deviationPercent: "-", rejected: "-", rejectedPercent: "-", aborted: "-", abortedPercent: "-" },
+    { id: 6, material: "Methanol", total: 90, inspected: 90, passed: 90, ftp: "100", deviation: "-", deviationPercent: "-", rejected: "-", rejectedPercent: "-", aborted: "-", abortedPercent: "-" },
+    { id: 7, material: "Ethylene Diamine (eda)", total: 92, inspected: 90, passed: 90, ftp: "100", deviation: "-", deviationPercent: "-", rejected: "2", rejectedPercent: "2.17", aborted: "-", abortedPercent: "-" },
+    { id: 8, material: "Zinc Sulphate - Solution ( 13% )", total: 75, inspected: 75, passed: 73, ftp: "97.33", deviation: "2", deviationPercent: "2.67", rejected: "2", rejectedPercent: "-", aborted: "-", abortedPercent: "-" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Card className="p-6 bg-teal-50 border-2 border-teal-400">
+        <div className="bg-teal-500 text-white p-3 rounded mb-4">
+          <h2 className="text-lg font-bold">VEHICLE INSPECTION & DEVIATION (QA) | REPORT</h2>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-slate-600">
+                <TableHead className="text-white text-xs">Sr. No</TableHead>
+                <TableHead className="text-white text-xs">Material</TableHead>
+                <TableHead className="text-white text-xs">Total Vehicles</TableHead>
+                <TableHead className="text-white text-xs">Lots Inspected</TableHead>
+                <TableHead className="text-white text-xs">Lots Passed</TableHead>
+                <TableHead className="text-white text-xs">FTP %</TableHead>
+                <TableHead className="text-white text-xs">Deviation</TableHead>
+                <TableHead className="text-white text-xs">Deviation %</TableHead>
+                <TableHead className="text-white text-xs">Rejected</TableHead>
+                <TableHead className="text-white text-xs">Rejected %</TableHead>
+                <TableHead className="text-white text-xs">Aborted</TableHead>
+                <TableHead className="text-white text-xs">Aborted %</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {inspectionData.map((row) => (
+                <TableRow key={row.id} className="hover:bg-gray-50">
+                  <TableCell className="text-xs">{row.id}</TableCell>
+                  <TableCell className="text-xs font-medium">{row.material}</TableCell>
+                  <TableCell className="text-xs text-center">{row.total}</TableCell>
+                  <TableCell className="text-xs text-center">{row.inspected}</TableCell>
+                  <TableCell className="text-xs text-center">{row.passed}</TableCell>
+                  <TableCell className="text-xs text-center">{row.ftp}</TableCell>
+                  <TableCell className="text-xs text-center">{row.deviation}</TableCell>
+                  <TableCell className="text-xs text-center">{row.deviationPercent}</TableCell>
+                  <TableCell className="text-xs text-center">{row.rejected}</TableCell>
+                  <TableCell className="text-xs text-center">{row.rejectedPercent}</TableCell>
+                  <TableCell className="text-xs text-center">{row.aborted}</TableCell>
+                  <TableCell className="text-xs text-center">{row.abortedPercent}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function TTATVehicleNightReductionDashboard() {
+  const contributorData = [
+    { material: "Acetic", jul: 14.54, aug: 5.1, sep: 11.09, oct: 12.58, nov: 7.84, dec: null },
+    { material: "Ammonia", jul: null, aug: null, sep: null, oct: null, nov: null, dec: null },
+    { material: "Ethwox", jul: 50.61, aug: 17.31, sep: 15.65, oct: 11.14, nov: 6.65, dec: null },
+    { material: "Methyl", jul: null, aug: null, sep: null, oct: null, nov: null, dec: null },
+    { material: "Salt", jul: 20.31, aug: 8.14, sep: 6.16, oct: 8.34, nov: 6.54, dec: 6.76 },
+  ];
+
+  const vehicleCountData = [
+    { material: "Acetic", jul: 76, aug: 62, sep: 90, oct: 73, nov: 32, dec: 37 },
+    { material: "Ammonia", jul: 10, aug: 0, sep: 0, oct: 0, nov: 11, dec: 1 },
+    { material: "Ethwox", jul: 43, aug: null, sep: null, oct: null, nov: null, dec: null },
+    { material: "Methyl", jul: null, aug: null, sep: null, oct: null, nov: null, dec: null },
+    { material: "Salt", jul: 84, aug: null, sep: null, oct: null, nov: null, dec: null },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Card className="p-6 bg-teal-50 border-2 border-teal-400">
+        <div className="bg-teal-500 text-white p-3 rounded mb-4">
+          <h2 className="text-lg font-bold">TTAT – REDUCTION IN VEHICLE STAY AT NIGHT | REPORT</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 gap-6">
+          <Card className="p-4 bg-green-100">
+            <h3 className="font-semibold mb-4 text-green-700">Trends - Average TTAT for TOP 11 Contributors (Hrs.)</h3>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={contributorData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="material" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="jul" fill="#3B82F6" />
+                  <Bar dataKey="aug" fill="#06B6D4" />
+                  <Bar dataKey="sep" fill="#10B981" />
+                  <Line type="monotone" dataKey="sep" stroke="#059669" strokeWidth={2} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex gap-4 mt-4">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                <span className="text-sm">JULY 2023</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-cyan-500 rounded"></div>
+                <span className="text-sm">AUGUST 2023</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-green-500 rounded"></div>
+                <span className="text-sm">SEPTEMBER 2023</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-green-600 rounded-full"></div>
+                <span className="text-sm">Positive Growth</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                <span className="text-sm">Negative Growth</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 bg-green-100">
+            <h3 className="font-semibold mb-4 text-green-700">Trends - No. of Vehicles Stayed at Night</h3>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={vehicleCountData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="material" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="jul" fill="#3B82F6" />
+                  <Bar dataKey="aug" fill="#06B6D4" />
+                  <Bar dataKey="sep" fill="#10B981" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function TATPastDataAnalysisDashboard() {
+  const tatData = [
+    { type: "Tanker", vehicles: 1809, avgTat: 11.85, weightage: 5.89 },
+    { type: "Truck", vehicles: 1193, avgTat: 7.62, weightage: 3.85 },
+    { type: "Iso Tank", vehicles: 251, avgTat: 11.98, weightage: 6.06 },
+    { type: "40 Feet", vehicles: 294, avgTat: 11.73, weightage: 5.93 },
+    { type: "Total", vehicles: 3953, avgTat: 10.18, weightage: 100 },
+  ];
+
+  const contributionData = [
+    { name: "Tanker", value: 39.06, color: "#EC4899" },
+    { name: "Truck", value: 32.49, color: "#06B6D4" },
+    { name: "Other", value: 28.45, color: "#10B981" },
+  ];
+
+  const materialData = [
+    { material: "Tanker", vehicles: 1809, avgTat: 11.85 },
+    { material: "Truck", vehicles: 1193, avgTat: 7.62 },
+    { material: "Iso Tank", vehicles: 251, avgTat: 11.98 },
+    { material: "40 Feet", vehicles: 294, avgTat: 11.73 },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Card className="p-6 bg-teal-50 border-2 border-teal-400">
+        <div className="bg-teal-500 text-white p-3 rounded mb-4">
+          <h2 className="text-lg font-bold">TAT PAST DATA ANALYSIS | REPORT</h2>
+        </div>
+        
+        <div className="grid grid-cols-5 gap-4 mb-6">
+          <div className="bg-slate-700 text-white p-3 rounded text-center">
+            <div className="text-xs">Previous Year AVG TAT (in Hrs.)</div>
+            <div className="text-xl font-bold">0</div>
+          </div>
+          <div className="bg-green-600 text-white p-3 rounded text-center">
+            <div className="text-xs">Current Year AVG TAT (in Hrs.)</div>
+            <div className="text-xl font-bold">12.63</div>
+          </div>
+          <div className="bg-gray-500 text-white p-3 rounded text-center">
+            <div className="text-xs">Previous Month AVG TAT (in Hrs.)</div>
+            <div className="text-xl font-bold">11.18</div>
+          </div>
+          <div className="bg-green-600 text-white p-3 rounded text-center">
+            <div className="text-xs">Current Month AVG TAT (in Hrs.)</div>
+            <div className="text-xl font-bold">10.18</div>
+          </div>
+          <div className="bg-teal-600 text-white p-3 rounded text-center">
+            <div className="text-xs">Today AVG TAT (in Hrs.)</div>
+            <div className="text-xl font-bold">3.34</div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-slate-600">
+                  <TableHead className="text-white text-xs">Vehicle Type</TableHead>
+                  <TableHead className="text-white text-xs">Avg TAT (in Hrs)</TableHead>
+                  <TableHead className="text-white text-xs">Inward to 1st wt (in Hrs)</TableHead>
+                  <TableHead className="text-white text-xs">1st wt to 2nd wt (in Hrs)</TableHead>
+                  <TableHead className="text-white text-xs">2nd wt</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {tatData.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-xs font-medium">{row.type}</TableCell>
+                    <TableCell className="text-xs text-center">{row.avgTat}</TableCell>
+                    <TableCell className="text-xs text-center">{index === 0 ? "1.20" : index === 1 ? "0.81" : index === 2 ? "1.21" : index === 3 ? "1.69" : "1.11"}</TableCell>
+                    <TableCell className="text-xs text-center">{index === 0 ? "8.51" : index === 1 ? "5.06" : index === 2 ? "9.60" : index === 3 ? "8.12" : "7.48"}</TableCell>
+                    <TableCell className="text-xs text-center">-</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+
+            <Card className="p-4">
+              <h4 className="font-semibold mb-4">TAT Contribution (%)</h4>
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={contributionData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={60}
+                      dataKey="value"
+                      label={({ value }) => `${value}%`}
+                    >
+                      {contributionData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+          </div>
+
+          <div className="space-y-4">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-slate-600">
+                  <TableHead className="text-white text-xs">Vehicle Type</TableHead>
+                  <TableHead className="text-white text-xs">Vehicles</TableHead>
+                  <TableHead className="text-white text-xs">Avg TAT (in Hrs)</TableHead>
+                  <TableHead className="text-white text-xs">Weightage %</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {tatData.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-xs font-medium">{row.type}</TableCell>
+                    <TableCell className="text-xs text-center">{row.vehicles}</TableCell>
+                    <TableCell className="text-xs text-center">{row.avgTat}</TableCell>
+                    <TableCell className="text-xs text-center">{row.weightage}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+
+            <Card className="p-4">
+              <h4 className="font-semibold mb-4">Material Group Wise Vehicle Count & Average TAT</h4>
+              <div className="h-48">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={materialData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="material" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="vehicles" fill="#3B82F6" />
+                    <Line type="monotone" dataKey="avgTat" stroke="#EF4444" strokeWidth={2} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function TTATQAVehicleTypeDashboard() {
+  const vehicleTypeData = [
+    { type: "ISO TANK", consignments2023: 369, avgTime2023: 4.59, consignmentsYTD: 1229, avgTimeYTD: 4.79, totalTATYTD: 12.77, costQATime: 37.67 },
+    { type: "TANKER", consignments2023: 1264, avgTime2023: 1.32, consignmentsYTD: 2679, avgTimeYTD: 1.82, totalTATYTD: 11.71, costQATime: 15.52 },
+    { type: "TEMPO 6 TON", consignments2023: 1, avgTime2023: 1.43, consignmentsYTD: 1, avgTimeYTD: 1.43, totalTATYTD: 32.18, costQATime: 4.44 },
+    { type: "TRUCK", consignments2023: 193, avgTime2023: 3.96, consignmentsYTD: 764, avgTimeYTD: 3.67, totalTATYTD: 9.44, costQATime: 38.87 },
+    { type: "SOFT CONTAINER", consignments2023: 1, avgTime2023: 1.13, consignmentsYTD: 4, avgTimeYTD: 1.37, totalTATYTD: 6.76, costQATime: 20.23 },
+    { type: "OTHER", consignments2023: 2, avgTime2023: 0.71, consignmentsYTD: 9, avgTimeYTD: 3.14, totalTATYTD: 6.11, costQATime: 51.39 },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <Card className="p-6 bg-teal-50 border-2 border-teal-400">
+        <div className="bg-teal-500 text-white p-3 rounded mb-4">
+          <h2 className="text-lg font-bold">TTAT (QA) VEHICLE TYPE | REPORT</h2>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-slate-600">
+                <TableHead className="text-white text-xs w-16"></TableHead>
+                <TableHead className="text-white text-xs">Vehicle Type</TableHead>
+                <TableHead className="text-white text-xs">No. of Consignment in AUG'23</TableHead>
+                <TableHead className="text-white text-xs">Wtd Avg QA Time (Hrs.)</TableHead>
+                <TableHead className="text-white text-xs">No. of Consignment YTD</TableHead>
+                <TableHead className="text-white text-xs">Wtd Avg QA Time (Hrs.) YTD</TableHead>
+                <TableHead className="text-white text-xs">Avg Total TAT (YTD)</TableHead>
+                <TableHead className="text-white text-xs">% Contb of QA Time</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {vehicleTypeData.map((row, index) => (
+                <TableRow key={index} className="hover:bg-gray-50">
+                  <TableCell className="text-xs text-center">
+                    <div className="w-8 h-8 bg-green-600 rounded flex items-center justify-center">
+                      {/* Vehicle icon placeholder */}
+                      <div className="w-6 h-4 bg-white rounded-sm"></div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-xs font-medium">
+                    <div className="bg-blue-600 text-white px-2 py-1 rounded">{row.type}</div>
+                  </TableCell>
+                  <TableCell className="text-xs text-center">{row.consignments2023}</TableCell>
+                  <TableCell className="text-xs text-center">{row.avgTime2023}</TableCell>
+                  <TableCell className="text-xs text-center">{row.consignmentsYTD}</TableCell>
+                  <TableCell className="text-xs text-center">{row.avgTimeYTD}</TableCell>
+                  <TableCell className="text-xs text-center">{row.totalTATYTD}</TableCell>
+                  <TableCell className="text-xs text-center">{row.costQATime}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </Card>
     </div>
   );
