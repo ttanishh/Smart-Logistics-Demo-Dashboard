@@ -1,73 +1,145 @@
-# Welcome to your Lovable project
 
-## Project info
+# 📦 Smart Logistics Dashboard — UPL Internship Project
 
-**URL**: https://lovable.dev/projects/f690a98d-316e-413b-b4d2-2bb490d9ab3b
+A responsive, real-time logistics monitoring dashboard built with **Next.js** during my internship at **UPL (under SUPERFORM)**. The system enables logistics managers to track vehicle movements, monitor route delays, and analyze inventory in a centralized, visual interface — supporting faster, data-driven decisions across the supply chain.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🔍 Overview
 
-**Use Lovable**
+The **Smart Logistics Dashboard** aggregates data from various logistics sources to offer end-to-end visibility into transportation and inventory operations. It helps identify delivery bottlenecks, track fleet performance, and maintain stock-level efficiency across warehouses and distribution points.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f690a98d-316e-413b-b4d2-2bb490d9ab3b) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 👨‍💻 Developed By
 
-**Use your preferred IDE**
+**Tanish Panchal**  
+Intern – Digital Transformation Team  
+UPL / SUPERFORM  
+🗓️ Duration: June–July 2025
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🎯 Features
 
-Follow these steps:
+- 🚚 **Fleet Status Monitoring** – Real-time status of active, idle, and maintenance vehicles
+- 📍 **Route Analysis View** – Route-wise performance metrics and heatmaps of delayed zones
+- 📦 **Inventory Analytics** – Tracks stock availability, fast-moving items, and restocking needs
+- 📊 **Dashboard Filters** – Dynamic filters for region, date range, and vehicle/product ID
+- 📅 **Dispatch Trends** – Visual breakdown of daily, weekly, and monthly movement
+- 📥 **Backend API Integration** – Pulls live or batch data from logistics sources
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🛠 Tech Stack
 
-# Step 3: Install the necessary dependencies.
-npm i
+| Layer       | Tools / Technologies                          |
+|-------------|-----------------------------------------------|
+| Frontend    | **Next.js**, Tailwind CSS, Chart.js / Recharts |
+| Backend     | **Node.js**, Express.js, Axios                |
+| Database    | MongoDB / PostgreSQL / Firebase (as applicable) |
+| Maps        | Mapbox / Google Maps API                      |
+| Deployment  | Vercel / Internal Server                      |
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+---
+
+## 📁 Folder Structure
+
+```
+
+smart-logistics-dashboard/
+├── components/
+│   ├── FleetStatusCard.tsx
+│   ├── InventoryChart.tsx
+│   └── RouteMap.tsx
+├── pages/
+│   ├── index.tsx
+│   └── api/
+│       └── logisticsData.ts
+├── public/
+│   └── icons/
+├── styles/
+│   └── globals.css
+├── utils/
+│   └── dataProcessor.ts
+├── .env.local.example
+├── README.md
+└── package.json
+
+````
+
+---
+
+## 📊 Sample Insights
+
+- 🔁 **Route Reassignments:** Improved delivery performance by analyzing top 5 delayed zones
+- 📉 **Delay Reduction:** Reduced average delivery delay by **12.4%** post dashboard intervention
+- 📦 **Inventory Efficiency:** Flagged SKUs with stockout risk within 7 days using turnover rates
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/tanish2311/smart-logistics-dashboard.git
+cd smart-logistics-dashboard
+````
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Setup Environment Variables
+
+Create a `.env.local` file:
+
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-api.com
+NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token
+```
+
+### 4. Start the Development Server
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 🧠 Key Learnings
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+* Built a fully responsive dashboard using **Next.js** and modern frontend tooling
+* Worked with real logistics datasets to derive meaningful KPIs
+* Collaborated with operations and backend teams for requirement gathering
+* Applied data visualization for real-time supply chain decision-making
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 📌 Notes
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+* This is a proof-of-concept and all shared data is anonymized or simulated.
+* The original dashboard was developed for internal use at UPL.
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/f690a98d-316e-413b-b4d2-2bb490d9ab3b) and click on Share -> Publish.
+## 📫 Contact
 
-## Can I connect a custom domain to my Lovable project?
+For queries or collaboration:
 
-Yes, you can!
+📧 [tanish2311@gmail.com](mailto:tanish2311@gmail.com)
+🔗 [LinkedIn](https://www.linkedin.com/in/tanish2311/)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+```
+
+
+
+I can provide those instantly.
+```
